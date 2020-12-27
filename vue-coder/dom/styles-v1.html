@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue JS - Coder</title>
   <style>
-    #app {
-      display: flex;justify-content: space-around;
+    .boxes {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
     }
     .box {
       width: 100px;
@@ -26,9 +28,14 @@
 </head>
 <body>
   <div id="app">
-    <div class="box" :class="{c1: aplicarC1}" @click="aplicarC1 = !aplicarC1"></div>
-    <div class="box" :class="{c2: aplicarC2}" @click="aplicarC2 = !aplicarC2"></div>
-    <div class="box" :class="estilo3" @click="aplicarC3 = !aplicarC3"></div>
+    <div class="boxes">
+      <div class="box" :class="classCSS" @click="aplicarC1 = !aplicarC1"></div>
+      <div class="box" :class="{c2: aplicarC2}" @click="aplicarC2 = !aplicarC2"></div>
+      <div class="box" :class="estilo3" @click="aplicarC3 = !aplicarC3"></div>
+    </div>
+
+    <hr>
+    <input type="text" v-model="classCSS">
    
   </div>
 
@@ -49,6 +56,7 @@
         aplicarC1: false,
         aplicarC2: false,
         aplicarC3: false,
+        classCSS: 'c1'
       }
     })
   </script>
