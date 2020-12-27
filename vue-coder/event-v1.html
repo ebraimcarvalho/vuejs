@@ -8,7 +8,9 @@
 <body>
   <div id="app">
     <p>{{count}}</p>
-    <button v-on:click="countSum">Acrescentar</button>
+    <button v-on:click="countSum(2, $event)">Acrescentar 2</button>
+
+    <p @mousemove="getXY">Mouse: X = {{ x }} | Y = {{ y }}</p>
   </div>
 
   <script src="http://unpkg.com/vue"></script>
@@ -17,11 +19,17 @@
     new Vue({
       el: '#app',
       data: {
-        count: 0
+        count: 0,
+        x: '',
+        y: '',
       },
       methods: {
-        countSum() {
-          return this.count++
+        countSum(sum, event) {
+          console.log(event)
+          return this.count += sum
+        },
+        getXY(e) {
+          [this.x, this.y] = [e.clientX, e.clientY]
         }
       }
     })
