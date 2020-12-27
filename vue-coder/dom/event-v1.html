@@ -22,6 +22,18 @@
       <br>
       <input v-on:keyup.enter="handleEnter" type="text" placeholder="email">
     </div>
+
+    <div>
+      <small>Usando two way data bind declarando</small>
+      <h3>{{title}}</h3>
+      <input type="text" v-bind:value="title" v-on:input="title = $event.target.value">
+    </div>
+
+    <div>
+      <small>Usando two way data bind com v-model</small>
+      <h3>{{title2}}</h3>
+      <input type="text" v-model="title2">
+    </div>
   </div>
 
   <script src="http://unpkg.com/vue"></script>
@@ -30,6 +42,8 @@
     new Vue({
       el: '#app',
       data: {
+        title: 'Usando Vue JS',
+        title2: 'Vue JS v-model',
         count: 0,
         x: '',
         y: '',
