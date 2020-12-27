@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS - Coder</title>
+</head>
+<body>
+  <div id="app">
+    <button @click="count++">Acrescentar 1</button>
+    <button @click="count2++">Acrescentar count2</button>
+    <p>{{ count }} - {{ count2 }}</p>
+    <p>{{ result }}</p>
+  </div>
+
+  <script src="http://unpkg.com/vue"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        count: 0,
+        count2: 0
+      },
+      methods: {
+        // result() {
+        //   console.log('method result run...')
+        //   return this.count >= 5 ? 'Maior ou igual a 5' : 'Menor que 5'
+        // }
+      },
+      computed: {
+        result() {
+          console.log('method result run...')
+          return this.count >= 5 ? 'Maior ou igual a 5' : 'Menor que 5'
+        }
+      }
+    })
+  </script>
+</body>
+</html>
