@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS do jeito Ninja!</title>
+  <style>
+    .red { color: red }
+    .green { color: green }
+    .btn {
+      border: none;
+      padding: .7rem 1rem;
+      font-size: 1rem;
+      color: #333;
+      background-color: #fe1;
+      border-radius: .4rem;
+      outline: none;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+    .btn:hover {
+      opacity: 0.5;
+    }
+    .btn-primary {
+      min-width: 200px;
+      background-color: blue;
+    }
+    .btn-secondary {
+      background-color: tomato;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1 v-bind:class="changeColor">{{title}}</h1>
+    <form action="http://google.com">
+      <button v-on:click="enviar" class="btn" :class="btnLimpar" v-bind:style="styleLimpar">Limpar</button>
+      <button type="submit" class="btn" :class="btnEnviar" v-bind:style="styleEnviar" @click.prevent.stop="enviar">Enviar</button>
+    </form>
+
+    {{toUpperCase}}
+
+    <p>Full name: {{fullName | upper()}}</p>
+    
+    <p v-if="status == 'hello'">Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+    <p v-else-if="status == 'dale'">Dale que dale dale</p>
+    <p v-else>Não existe texto para mostrar!</p>
+    
+    <div v-if="user.name == 'Jon Snow'">
+      ID: {{user.id}} <br>
+      Name: {{user.name}} <br>
+      Job Title: {{user.job}}
+    </div>
+    <div v-else>Não existe usuário com ID = 1</div>
+    <ul>
+      <li v-for="(item, index) in skills">{{index+1}}: {{item.name | truncate(3)}}</li>
+    </ul>
+
+    <hr>
+
+    <label for="name">Nome</label>
+    <input id="name" v-model="name" type="text" >
+    <br>
+
+    <label for="phone">Telefone</label>
+    <input id="phone" v-model="phone" type="text" >
+    <br>
+
+    <label for="news">Deseja Receber novidades?</label>
+    <input v-model="news" value="Sim" type="radio"> Sim
+    <input v-model="news" value="Não" type="radio"> Não
+    <br>
+    
+    <label for="interests">Interesses</label> <br>
+    <input type="checkbox" v-model="interests" value="Futebol"> Futebol <br>
+    <input type="checkbox" v-model="interests" value="Fórmula 1"> Fórmula 1 <br>
+    <input type="checkbox" v-model="interests" value="Basquete"> Basquete
+    <br>
+
+    <label for="know">Como nos Conheceu?</label>
+    <select v-model="know" multiple>
+      <option disabled>Escolha</option>
+      <option>Google</option>
+      <option>Linkedin</option>
+      <option>Youtube</option>
+    </select>
+    
+    <div>
+      {{name}} <br>
+      {{phone}} <br>
+      {{news}} <br>
+      {{know}} <br>
+      <p v-if="interests.length > 0">{{interests}}</p>
+    </div>
+
+    <img style="max-width: 100%" v-bind:src="image" alt="">
+  </div>
+
+  <script src="https://unpkg.com/vue"></script>
+
+  <script>
+    let app = new Vue({
+      el: '#app',
+      beforeCreate() {
+        console.log('beforeCreate')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      created() {
+        console.log('created')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      beforeMount() {
+        console.log('beforeMount')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      mounted() {
+        console.log('mounted')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      beforeUpdate() {
+        console.log('beforeUpdate')
+        this.title = 'beforeUpdated'
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      updated() {
+        console.log('updated')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      beforeDestroy() {
+        console.log('beforeDestroy')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      destroyed() {
+        console.log('destroyed')
+        console.log('titulo: ', this.title)
+        console.log('el:', this.$el)
+      },
+      data: {
+        name: '',
+        phone: '',
+        news: '',
+        interests: [],
+        know: [],
+        image: 'https://i1.wp.com/storage.googleapis.com/blog-images-backup/1*wFL3csJ96lQpY0IVT9SE3w.jpeg?ssl=1',
+        changeColor: 'green',
+        status: 'dale',
+        title: 'Hello World, I\'m Ebraim!',
+        user: {
+          id: 1,
+          name: 'Jon Snow',
+          job: 'Actor'
+        },
+        skills: [
+          {name: 'Javascript'},
+          {name: 'Java'},
+          {name: 'PHP'},
+          {name: 'Python'},
+          {name: 'C#'},
+        ],
+        btnLimpar: {
+          "btn-secondary": true
+        },
+        btnEnviar: ['btn-primary', 'dale'],
+        styleLimpar: {
+          "font-size": "30px" 
+        },
+        styleEnviar: [
+          { "text-transform": "uppercase"},
+          { color: "white" }
+        ],
+        firstName: '',
+        lastName: '',
+        // fullName: ''
+      },
+
+      methods: {
+        enviar() {
+          alert('Enviar formulário')
+        },
+
+        updateUser() {
+          console.log('Usuario atualizado')
+        }
+      },
+
+      filters: {
+        truncate(str, length) {
+          if(str.length > length) {
+            return str.substring(0,length) + '...'
+          } else {
+            return str
+          }
+        },
+
+        upper(str) {
+          return str.toUpperCase()
+        }
+      },
+
+      computed: {
+        toUpperCase() {
+          return this.name.toUpperCase()
+        },
+
+        fullName() {
+          return this.firstName + ' ' + this.lastName
+        }
+      },
+
+      watch: {
+        name(newValue, oldValue) {
+          console.log('oldValue', oldValue)
+          console.log('newValue', newValue)
+        },
+
+        firstName(newValue) {
+          this.updateUser()
+        }
+
+        // firstName(newValue) {
+        //   this.fullName = newValue + ' ' + this.lastName
+        // },
+
+        // lastName(newValue) {
+        //   this.fullName = this.firstName + ' ' + newValue
+        // }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS do Jeito Ninja!</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <style>
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>{{title}}</h2>
+    <span>This will never change: {{movie}}</span>
+    <input ref="input" type="text" v-model="newuser" v-on:keyup.enter="addinput(newuser)">
+    <button ref="btnadd" @click.stop.prevent="addinput(newuser)">Acrescentar</button>
+    <ul ref="users">
+      <li v-for="(user, index) in users" :key="index">{{user.name}} | <button @click.stop.prevent="exclude(index)">delete</button></li>
+    </ul>
+
+    <button @click.stop.prevent="change">Change</button>
+
+    <transition name="fade">
+      <component :is="movie"></component>
+    </transition>
+  </div>
+
+  <template id="transformes">
+    <div>
+      <h3>Transformes</h3>
+      <ul>
+        <li>Optimus Prime</li>
+        <li>Prime Turbo</li>
+        <li>Celta 1.0</li>
+      </ul>
+    </div>
+  </template>
+
+  <template id="game">
+    <div>
+      <h3>Game of Thrones</h3>
+      <ul>
+        <li>Jon Snow</li>
+        <li>Daenerys Targarean</li>
+        <li>Cersei Lannister</li>
+      </ul>
+    </div>
+  </template>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    Vue.component('transformes', {
+      template: '#transformes'
+    });
+    Vue.component('game', {
+      template: '#game'
+    });
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        title: 'Vue JS do jeito Ninja!',
+        newuser: '',
+        movie: 'game',
+        users: [
+          {
+          id: 1,
+          name: 'José'
+        },
+        {
+          id: 2,
+          name: 'Maria'
+        },
+        {
+          id: 3,
+          name: 'Jesus'
+        }
+      ],
+      },
+      methods: {
+        exclude(index) {
+          app.users.splice(index, 1)
+        },
+        addinput(text) {
+          if(!text.length) return null
+          console.log(text)
+          app.users.push({id: app.users.length, name: text})
+          app.newuser = ''
+          this.$refs.input.focus()
+        },
+        change() {
+          app.movie == 'game' ? app.movie = 'transformes' : app.movie = 'game'
+        }
+      },
+      mounted() {
+        console.log(this.$refs)
+      }
+    })
+  </script>
+</body>
+</html>

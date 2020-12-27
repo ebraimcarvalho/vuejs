@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS - Coder Udemy</title>
+</head>
+<body>
+  <div id="app">
+    <h1 v-once>{{title}}</h1>
+
+    <input v-on:input="mudarTitulo" type="text" placeholder="Mudar título!">
+
+    <p>{{saudacao}}</p>
+    <p>{{dale()}}</p>
+    <a :href="link" target="_">Link para Google</a>
+    <hr>
+    <p v-html="linkHtml"></p>
+  </div>
+</body>
+
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      title: 'Dale, Ebra!',
+      link: 'https://google.com',
+      linkHtml: '<a href="https://google.com" target="_blank">Google Link HTML</a>'
+    },
+    methods: {
+      mudarTitulo(event) {
+        this.title = event.target.value
+      },
+      dale() {
+        return 'Dale!!!!'
+      }
+    },
+    computed: {
+      saudacao() {
+        this.title = 'Bom Dia!'
+        return this.title
+      }
+    }
+  })
+</script>
+</html>

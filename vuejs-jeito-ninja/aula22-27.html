@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS do Jeito Ninja!</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <style>
+    .dark {
+      background-color: #333;
+      color: #fff;
+    }
+    .light {
+      background-color: #ccc;
+      color: darkblue
+    }
+    .dale {
+      padding: 2rem 0px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>{{title}}</h2>
+    <router-link to="/">Home</router-link>
+    <router-link :to="{ name: 'transformers' }">Transformers</router-link>
+    <router-link :to="{ name: 'game' }">Game of Thrones</router-link>
+    <router-link to="/arrow">Arrow</router-link>
+
+    <router-view></router-view>
+    
+  </div>
+
+  <template id="transformes">
+    <div>
+      <h3>Transformes</h3>
+      <ul>
+        <li v-for="(item, index) in transformers" :key="index"><router-link :to="{ name: 'transformersContent', params: { name: item.slug }}">{{item.name}}</router-link></li>
+      </ul>
+      <div :class="['dale', sidebar]">Sidebar</div>
+      <router-view></router-view>
+    </div>
+  </template>
+
+  <template id="game">
+    <div>
+      <h3>Game of Thrones</h3>
+      <ul>
+        <li v-for="(item, index) in actors" :key="index"><router-link :to="{ name: 'gameContent', params: { name: item.slug }}">{{item.name}}</router-link></li>
+      </ul>
+      <router-view></router-view>
+    </div>
+  </template>
+
+  <template id="transformersContent">
+    <div>
+      <h3>Transformer Content</h3>
+      <p>{{$route.params.name}}</p>
+    </div>
+  </template>
+
+  <template id="gameContent">
+    <div>
+      <h3>Game Of Thrones Content</h3>
+      <p>{{$route.params.name}}</p>
+    </div>
+  </template>
+
+  <template id="error404">
+    <div>
+      <h3>Página não encontrada</h3>
+      <p>Esta página não existe!</p>
+      <router-link to="/">Home</router-link>
+    </div>
+  </template>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js "></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    var Transformer = Vue.component('transformes', {
+      template: '#transformes',
+      props: {
+        sidebar: String,
+      },
+      data() {
+        return {
+          transformers: [
+            {name: 'Optimus Prime', slug: 'optimus-prime'},
+            {name: 'Bumble Bee', slug: 'bumble-bee'},
+            {name: 'Megatron', slug: 'megatron'},
+          ],
+        }
+      },
+      created() {
+        console.log(this.sidebar)
+      }
+    });
+    var Game = Vue.component('game', {
+      template: '#game',
+      data() {
+        return {
+          actors: [
+            {name: 'Jon Snow', slug: 'jon-snow'},
+            {name: 'Daenerys Targaryen', slug: 'daenerys-targarean'},
+            {name: 'Tyron Lannister', slug: 'tyron-lannister'},
+          ],
+        }
+      }
+    });
+
+    var TransformersContent = Vue.component('transformers-content', {
+      template: '#transformersContent'
+    })
+
+    var GameContent = Vue.component('gameContent', {
+      template: '#gameContent'
+    })
+
+    var error404 = Vue.component('error-component', {
+      template: '#error404'
+    })
+
+    const routes = [
+      { path: '/', name: 'home', /*redirect: {name: 'gameContent', params: {name: 'jon-snow'}}*/ },
+      {path: '/transformers', name: 'transformers', component: Transformer, props: { sidebar: 'dark'}, children: [
+        {path: ':name', name: 'transformersContent', component: TransformersContent}
+      ]},
+      {path: '/game', name: 'game', component: Game, children: [
+        {path: ':name', name: 'gameContent', component: GameContent}
+      ]},
+      { path: '*', name: 'error404', component: error404 }
+    ]
+
+    const router = new VueRouter({
+      routes,
+      mode: 'history',
+      base: '/'
+    })
+
+    var app = new Vue({
+      el: '#app',
+      router,
+      data: {
+        title: 'Vue JS do jeito Ninja!',
+        newuser: '',
+        movie: 'game',
+      },
+      created () {
+        // this.$router.push({name: 'transformersContent', params: {name: 'optimus-prime'}})
+      },
+    })
+  </script>
+</body>
+</html>

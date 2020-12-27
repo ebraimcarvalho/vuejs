@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS do jeito Ninja!</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+</head>
+<body>
+  <div id="app">
+    <navbar-component></navbar-component>
+    <itens-component :items="[{label: 'test1'}, {label: 'test2'}]"></itens-component>
+    <br><br><br>
+    {{title}}
+    <list></list>
+    <list></list>
+    <button type="button" class="btn btn-primary">Primary</button>
+
+    <test></test>
+  </div>
+
+  <template id="text-template">
+    <div>
+      <h1>Template Vue JS</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto debitis reiciendis sapiente nihil tenetur neque laudantium.</p>
+    </div>
+  </template>
+
+  <template id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <itens-component 
+            :items="topNav"
+            @emit-click="getLink" 
+          ></itens-component>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </template>
+
+  <template id="nav-itens">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      
+      <li v-for="(item, index) in items" class="nav-item">
+        <a @click.stop.prevent="emitClick(index, item)" class="nav-link" href="#">{{item.label}}</a>
+      </li>
+    </ul>
+  </template>
+
+  <script src="http://unpkg.com/vue"></script>
+
+  <script>
+    Vue.component('list', {
+      template: '#text-template'
+    })
+    Vue.component('test', {
+      template: '<div><h3>Teste</h3><p>teste de dois elementos</p></div>'
+    })
+    Vue.component('navbar-component', {
+      template: '#navbar',
+      data() {
+        return {
+          topNav: [{label: 'Home'}, {label: 'About'}, {label: 'Contact'}]
+        }
+      },
+      methods: {
+        getLink (index, label) {
+          alert(this.topNav[index].label)
+        }
+      }
+    })
+    Vue.component('itens-component', {
+      template: '#nav-itens',
+      props: {
+        items: {
+          type: Array
+        }
+      },
+      methods: {
+        emitClick(index) {
+          this.$emit('emit-click', index)
+          console.log(this.items[index].label)
+        }
+      }
+    })
+    
+    var app = new Vue({
+      el: '#app',
+      data: {
+        title: 'Dale'
+      }
+    })
+  </script>
+</body>
+</html>

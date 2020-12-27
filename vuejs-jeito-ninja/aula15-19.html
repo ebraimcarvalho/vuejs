@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS do Jeito Ninja!</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+  <div id="app">
+
+    <input-component>
+      <div><p>Dale que dale dale</p></div>
+    </input-component>
+
+    <div class="alert alert-danger" v-if="response.status == 'error'">{{response.msg}}</div>
+    <div v-if="loader.users">Carregando...</div>
+
+    <br>
+
+    <list-component></list-component>
+
+    <ul>
+      <li v-for="(item, index) in users" :key="index">{{item.name}}</li>
+    </ul>
+  </div>
+
+  <template id="input">
+    <div class="container">
+      <div class="card">
+        <div class="card-block">
+          <div class="form-group">
+            <slot name="label"></slot>
+            <slot name="input"></slot>
+            <label for="">Título</label>
+            <input v-model="title" type="text" class="form-control">
+          </div>
+          <button @click.stop.prevent="getUsers()" class="btn btn-success">Get Users</button>
+          <slot></slot>
+          <button @click.stop.prevent="submit()" class="btn btn-primary">ENVIAR</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="list">
+    <div class="container">
+      <ul class="list-group">
+        <li class="list-group-item">Cras just odio</li>
+        <li class="list-group-item">Dapibus ac facilisis</li>
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+        <li v-for="item in items" class="list-group-item">{{item.title}}</li>
+      </ul>
+    </div>
+  </template>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    var mixins = {
+      methods: {
+        getUsers() {
+          app.loader.users = true
+          var url = 'http://jsonplaceholder.typicode.com/users'
+
+          axios.get(url).then(response =>{
+            console.log(response)
+            app.users = response.data
+          }).catch(error => {
+            app.response.status = 'error'
+          }).finally(() => {
+            app.loader.users = false
+            console.log('Requisição finalizada!')
+          })
+          // this.$http.get(url).then(response => {
+          //   app.users = response.body
+          // }).catch(error => {
+          //   app.response.status = 'error'
+          //   console.log(error)
+          // }).finally(() => {
+          //   console.log('Requisição finalizada!')
+          //   app.loader.users = false
+          // })
+        }
+      }
+    }
+
+    Vue.component('input-component', {
+      template: '#input',
+      mixins: [mixins],
+      data() {
+        return {
+          title: ''
+        }
+      },
+      methods: {
+        submit() {
+          this.$eventHub.$emit('submit', this.title)
+        }
+      },
+    })
+
+    Vue.component('list-component', {
+      template: '#list',
+      data() {
+        return {
+          items: [
+            { title: 'Fazer Feira'},
+            { title: 'Fazer café'}
+          ]
+        }
+      },
+      created() {
+        var vm = this;
+        this.$eventHub.$on('submit', (item) => {
+          this.items.push({title: item})
+        }
+        
+        // function(item) {
+        //   vm.items.push({title: item})
+        // }
+        )
+      },
+    })
+
+    // var eventBus = new Vue()
+    Vue.prototype.$eventHub = new Vue()
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        title: 'Título',
+        users: [],
+        loader: {
+          users: false
+        },
+        response: {
+          msg: 'Página não encontrada',
+          status: ''
+        }
+      }
+    })
+  </script>
+</body>
+</html>
