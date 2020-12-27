@@ -10,12 +10,18 @@
     <p>{{count}}</p>
     <button v-on:click="countSum(2, $event)">Acrescentar 2</button>
 
-    <p @mousemove="getXY">Mouse: X = {{ x }} | Y = {{ y }}
+    <p @mousemove.self="getXY">Mouse: X = {{ x }} | Y = {{ y }}
+      <span>PARAR AQUI!!!</span>
       <span @mousemove.stop.prevent>PARAR AQUI!!!</span>
       <span @mousemove="stopPropag">PARAR AQUI!!!</span>
     </p>
     <a @click.stop.prevent href="https://google.com">Google</a>
     <a @click="prevent" href="https://google.com">Google</a>
+    <div>
+      <input v-on:keyup="handleKey" type="text" placeholder="Name">
+      <br>
+      <input v-on:keyup.enter="handleEnter" type="text" placeholder="email">
+    </div>
   </div>
 
   <script src="http://unpkg.com/vue"></script>
@@ -42,6 +48,14 @@
         prevent(e) {
           e.preventDefault()
         },
+        handleKey(e) {
+          if(e.keyCode == 13) {
+            alert(`Olá ${e.target.value}`)
+          }
+        },
+        handleEnter(e) {
+          alert(`Logar com email ${e.target.value}`)
+        }
       }
     })
   </script>
