@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS - Coder</title>
+  <style>
+    #app {
+      display: flex;justify-content: space-around;
+    }
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: gray;
+    }
+    .c1 {
+      background-color: red;
+    }
+    .c2 {
+      background-color: blue;
+    }
+    .c3 {
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="box" :class="{c1: aplicarC1}" @click="aplicarC1 = !aplicarC1"></div>
+    <div class="box" :class="{c2: aplicarC2}" @click="aplicarC2 = !aplicarC2"></div>
+    <div class="box" :class="{c3: aplicarC3}" @click="aplicarC3 = !aplicarC3"></div>
+   
+  </div>
+
+  <script src="http://unpkg.com/vue"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        aplicarC1: false,
+        aplicarC2: false,
+        aplicarC3: false,
+      }
+    })
+  </script>
+</body>
+</html>
