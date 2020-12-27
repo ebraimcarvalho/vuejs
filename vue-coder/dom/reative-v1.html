@@ -10,6 +10,7 @@
     <button @click="count++">Acrescentar 1</button>
     <button @click="count2++">Acrescentar count2</button>
     <p>{{ count }} - {{ count2 }}</p>
+    <p>{{ output1 }}</p>
     <p>{{ result }}</p>
   </div>
 
@@ -20,7 +21,23 @@
       el: '#app',
       data: {
         count: 0,
+        output1: 0,
         count2: 0
+      },
+      computed: {
+        result() {
+          console.log('computed result run...')
+          return this.count >= 5 ? 'Maior ou igual a 5' : 'Menor que 5'
+        }
+      },
+      watch: {
+        count(novo, velho) {
+          console.log('watch output run...')
+          this.output1 = this.count >= 5 ? 'Maior ou igual a 5' : 'Menor que 5'
+        },
+        count2() {
+          console.log('count2 runned')
+        }
       },
       methods: {
         // result() {
@@ -28,12 +45,6 @@
         //   return this.count >= 5 ? 'Maior ou igual a 5' : 'Menor que 5'
         // }
       },
-      computed: {
-        result() {
-          console.log('method result run...')
-          return this.count >= 5 ? 'Maior ou igual a 5' : 'Menor que 5'
-        }
-      }
     })
   </script>
 </body>
