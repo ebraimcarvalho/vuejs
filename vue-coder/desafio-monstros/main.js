@@ -15,12 +15,6 @@ new Vue ({
       max: 12
     }
   },
-  computed: {
-  
-  },
-  watch: {
-
-  },
   methods: {
     randomAttack() {
       let lessAttack = this.randomNumber(this.lessPower.min, this.lessPower.max)
@@ -30,14 +24,9 @@ new Vue ({
     randomNumber(min, max) {
       return Math.ceil((Math.random() * max) + min)
     },
-    addLog(player, monster, mode) {
-      if (mode == 'simple') {
-        this.logs.unshift(`Jogador atingiu Monstro com ${player}`)
-        this.logs.unshift(`Monstro atingiu Jogador com ${monster}`)
-      } else {
-        this.logs.unshift(`Jogador atingiu Monstro com ${monster}`)
-        this.logs.unshift(`Monstro atingiu Jogador com ${player}`)
-      }
+    addLog(player, monster) {
+      this.logs.unshift(`Monstro atingiu Jogador com ${player}`)
+      this.logs.unshift(`Jogador atingiu Monstro com ${monster}`)
     },
     playerLoss() {
       this.healthPlayer = 0
@@ -49,32 +38,35 @@ new Vue ({
       this.result = 'green'
       this.logs.unshift(`Fim de jogo!`)
     },
-    playMove(healthPlayer, healthMonster, mode) {
+    attack() {
+      if(this.result) return null
       let [lessAttack, strongAttack] = this.randomAttack();
-      if(healthPlayer <= strongAttack) {
+      if(this.healthPlayer <= strongAttack) {
         this.addLog(lessAttack, strongAttack);
         this.playerLoss()
-      } else if(healthMonster <= lessAttack) {
+      } else if(this.healthMonster <= lessAttack) {
         this.addLog(lessAttack, strongAttack);     
         this.playerWin()
       } else {
-        if (mode == 'simple') {
-          this.healthPlayer -= strongAttack;
-          this.healthMonster -= lessAttack;
-        } else {
-          this.healthMonster -= strongAttack;
-          this.healthPlayer -= lessAttack;
-        }        
-        this.addLog(lessAttack, strongAttack, mode);
+        this.healthPlayer -= strongAttack;
+        this.healthMonster -= lessAttack;    
+        this.addLog(strongAttack, lessAttack);
       }
-    },
-    attack() {
-      if(this.result) return null
-      this.playMove(this.healthPlayer, this.healthMonster, 'simple')      
     },
     attackSpecial() {
       if(this.result) return null
-      this.playMove(this.healthPlayer, this.healthMonster, 'special')
+      let [lessAttack, strongAttack] = this.randomAttack();
+      if(this.healthMonster <= strongAttack) {
+        this.addLog(strongAttack, lessAttack);
+        this.playerWin()
+      } else if(this.healthPlayer <= lessAttack) {
+        this.addLog(strongAttack, lessAttack);     
+        this.playerLoss()
+      } else {
+        this.healthMonster -= strongAttack;
+        this.healthPlayer -= lessAttack;    
+        this.addLog(lessAttack, strongAttack);
+      }
     },
     cure() {
       if (this.result) return null;
