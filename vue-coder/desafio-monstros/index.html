@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio Monstros - Vue JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div class="game">
+      <div class="player">
+        <h3>Jogador</h3>
+        <div class="barra-progresso">
+          <div :style="[{width: healthPlayer + '%'}]" :class="['progresso', {danger: dangerPlayer}]"></div>
+        </div>
+        100%
+      </div>
+
+      <div class="player">
+        <h3>Monstro</h3>
+        <div class="barra-progresso">
+          <div :style="{width: healthMonster + '%'}" :class="['progresso', {danger: dangerMonster}]"></div>
+        </div>
+        100%
+      </div>
+    </div>
+
+    <div v-if="!newgame" class="new-game">
+      <button @click="newgame = true">Iniciar novo jogo</button>
+    </div>
+
+    <div v-if="newgame" class="action">
+      <button @click=change>Ataque</button>
+      <button>Ataque Especial</button>
+      <button>Curar</button>
+      <button @click="giveup">Desistir</button>
+    </div>
+
+    <div v-if="logs" class="logs">
+      <p>Monstro atingiu jogador com 12</p>
+      <p>Monstro atingiu jogador com 6</p>
+      <p>Monstro atingiu jogador com 12</p>
+      <p>Monstro atingiu jogador com 6</p>
+    </div>
+  </div>
+  
+  <script src="https://unpkg.com/vue"></script>
+
+  <script src="main.js"></script>
+</body>
+</html>
