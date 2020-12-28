@@ -1,7 +1,7 @@
 new Vue ({
   el: '#app',
   data: {
-    newgame: false,
+    running: false,
     healthPlayer: 100,
     healthMonster: 100,
     logs: [],
@@ -81,11 +81,9 @@ new Vue ({
       }
     },
     giveup() {
-      this.newgame = false;
+      this.running = false;
       this.healthPlayer = 100;
       this.healthMonster = 100;
-      this.dangerPlayer = false;
-      this.dangerMonster = false;
       this.logs = [];
       this.result = '';
     },
