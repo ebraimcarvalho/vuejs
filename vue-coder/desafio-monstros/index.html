@@ -12,36 +12,37 @@
       <div class="player">
         <h3>Jogador</h3>
         <div class="barra-progresso">
-          <div :style="[{width: healthPlayer + '%'}]" :class="['progresso', {danger: dangerPlayer}]"></div>
+          <div :style="[{width: healthPlayer + '%'}]" :class="['progresso', {danger: healthPlayer <= 20}]"></div>
         </div>
-        100%
+        {{healthPlayer}}%
       </div>
 
       <div class="player">
         <h3>Monstro</h3>
         <div class="barra-progresso">
-          <div :style="{width: healthMonster + '%'}" :class="['progresso', {danger: dangerMonster}]"></div>
+          <div :style="{width: healthMonster + '%'}" :class="['progresso', {danger: healthMonster <= 20}]"></div>
         </div>
-        100%
+        {{healthMonster}}%
       </div>
     </div>
 
+    <div v-if="result" class="new-game">
+      <p class="result"  :style="{color: result}">{{result == 'green' ? 'Você Ganhou!' : 'Você perdeu! :('}}</p>
+    </div>
+
     <div v-if="!newgame" class="new-game">
-      <button @click="newgame = true">Iniciar novo jogo</button>
+      <button class="button__newgame" @click="newgame = true">Iniciar novo jogo</button>
     </div>
 
     <div v-if="newgame" class="action">
-      <button @click=change>Ataque</button>
-      <button>Ataque Especial</button>
-      <button>Curar</button>
-      <button @click="giveup">Desistir</button>
+      <button class="button__attack" @click=attack>Ataque</button>
+      <button class="button__special" @click="attackSpecial">Ataque Especial</button>
+      <button class="button__cure" @click="cure">Curar</button>
+      <button class="button__giveup" @click="giveup">Reiniciar</button>
     </div>
 
-    <div v-if="logs" class="logs">
-      <p>Monstro atingiu jogador com 12</p>
-      <p>Monstro atingiu jogador com 6</p>
-      <p>Monstro atingiu jogador com 12</p>
-      <p>Monstro atingiu jogador com 6</p>
+    <div v-if="logs.length" class="logs">
+      <p v-for="(item, index) in logs" :key="index">{{item}}</p>
     </div>
   </div>
   
