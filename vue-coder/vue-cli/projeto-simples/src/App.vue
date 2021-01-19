@@ -1,29 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Contadores</h1>
+    <p>{{contador}}</p>
+
+    <contador /> <!-- import via main.js -->
+    <contador />
+    <!-- <Contador />
+    <Contador />
+    <Contador /> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import Contador from "./Contador.vue"
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  // components: {
+  //   Contador
+  // },
+  data() {
+    return {
+      contador: 0
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
