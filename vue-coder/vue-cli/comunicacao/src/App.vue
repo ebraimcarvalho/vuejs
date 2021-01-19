@@ -1,6 +1,9 @@
 <template>
 	<div id="app">
 		<app-usuario />
+		<div>
+			<h2>Hello</h2>
+		</div>
 	</div>
 </template>
 
