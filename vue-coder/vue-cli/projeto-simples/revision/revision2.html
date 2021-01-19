@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revision</title>
+</head>
+
+<body>
+  <div id="app">
+    <contador></contador>
+    <contador></contador>
+    <contador></contador>
+  </div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+    Vue.component('contador', {
+      template: `
+        <div>
+          <p>Contador: {{count}}</p>
+          <div>
+            <button @click="count++">+</button>
+            <button @click="count--">-</button>
+          </div>
+        <div>
+      `,
+      data() {
+        return {
+          count: 0
+        }
+      }
+    })
+    new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+
+</html>

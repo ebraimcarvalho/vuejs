@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revision</title>
+</head>
+
+<body>
+  <div id="app">
+    <p>Contador: {{count}}</p>
+    <div>
+      <button @click="handleClick('increment')">+</button>
+      <button @click="handleClick('decrement')">-</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        count: 0
+      },
+      methods: {
+        handleClick(type) {
+          if (type == 'increment') {
+            this.count++
+          } else {
+            this.count > 0 ? this.count-- : null
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
