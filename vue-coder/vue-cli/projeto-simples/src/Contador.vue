@@ -26,6 +26,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  /* button {
+    background-color: tomato;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height: 30px;
+    margin-right: 10px;
+    outline: none;
+    width: 30px;
+  } */
 </style>
