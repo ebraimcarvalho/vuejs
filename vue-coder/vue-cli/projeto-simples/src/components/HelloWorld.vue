@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <input type="text" v-model="name">
+    <p>Name: {{name}}</p>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -35,6 +37,11 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data: function() {
+    return {
+      name: '',
+    }
   }
 }
 </script>
