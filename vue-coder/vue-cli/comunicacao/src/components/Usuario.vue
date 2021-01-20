@@ -3,6 +3,7 @@
     <h1>Componente Usuário</h1>
     <p>Esse é um componente muito legal!</p>
     <p>{{ title }}</p>
+    <p>Usuário tem <strong>{{idade}} anos</strong></p>
     <button @click="alterarNome">Alterar nome</button>
     <hr />
     <div class="componentes">
@@ -10,8 +11,13 @@
         @mudou="trataEvento($event)"
         :title="title"
         :reiniciarFN="reiniciarNome"
+        :idade="idade"
       />
-      <app-usuario-editar />
+      <app-usuario-editar 
+        :idade="idade" 
+        @idadeMudou="idade = $event"
+        :idadecallback="idadecallback"
+      />
     </div>
   </div>
 </template>
@@ -25,6 +31,7 @@ export default {
   data() {
     return {
       title: "Props Teste",
+      idade: 21,
     };
   },
   methods: {
@@ -35,8 +42,13 @@ export default {
       console.log(e)
       this.title = e.novo
     },
-    reiniciarNome() {
+    reiniciarNome(item) {
       this.title = 'Props Teste'
+      console.log(item)
+    },
+    idadecallback() {
+      console.log('dale')
+      this.idade = 33
     }
   },
 };

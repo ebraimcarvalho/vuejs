@@ -5,7 +5,8 @@
     <p>{{ title }}</p>
     <p>{{ inverternome() }}</p>
     <button @click="reiniciarNome">Reiniciar nome</button>
-    <button @click="reiniciarFN">Resetar Nome (Callback)</button>
+    <button @click="reiniciarFN('reseeeet')">Resetar Nome (Callback)</button>
+    <p>Idade do usuário é <strong>{{idade}}</strong></p>
   </div>
 </template>
 
@@ -16,7 +17,8 @@ export default {
       type: String,
       required: true
     },
-    reiniciarFN: Function
+    reiniciarFN: Function,
+    idade: Number,
   },
   methods: {
     inverternome() {
