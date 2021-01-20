@@ -2,12 +2,19 @@
     <div class="componente">
         <h2>As Informações de Usuário</h2>
         <p>Vários detalhes...</p>
+        <p>{{title}}</p>
+        <p>{{inverternome()}}</p>
     </div>
 </template>
 
 <script>
 export default {
-    
+    props: ['title'],
+    methods: {
+        inverternome() {
+            return this.title.split('').reverse().join('')
+        }
+    }
 }
 </script>
 
