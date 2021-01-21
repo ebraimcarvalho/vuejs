@@ -54,8 +54,11 @@ export default {
     }
   },
   created() {
-    barramento.$on('idadeMudou', incremento => {
-      this.idade += incremento
+    // barramento.$on('idadeMudou', incremento => {
+    //   this.idade += incremento
+    // })
+    barramento.quandoIdadeMudar(inc => {
+      this.idade += inc
     })
   }
 };
