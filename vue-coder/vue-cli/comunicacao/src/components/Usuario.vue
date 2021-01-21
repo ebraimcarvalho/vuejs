@@ -25,8 +25,10 @@
 <script>
 import AppUsuarioInfo from "./UsuarioInfo";
 import AppUsuarioEditar from "./UsuarioEditar";
+import barramento from '@/barramento'
 
 export default {
+  
   components: { AppUsuarioInfo, AppUsuarioEditar },
   data() {
     return {
@@ -51,6 +53,11 @@ export default {
       this.idade = 33
     }
   },
+  created() {
+    barramento.$on('idadeMudou', incremento => {
+      this.idade += incremento
+    })
+  }
 };
 </script>
 
