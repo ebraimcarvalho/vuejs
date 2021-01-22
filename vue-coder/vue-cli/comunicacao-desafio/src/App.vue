@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <usuario-lista :usuarios="usuarios" />
-    <usuario-detalhe @UserOK="test" />
+    <usuario-lista :usuarios="usuarios" :onChange="userSelect" />
+    <!-- <usuario-detalhe @UserOK="test" /> -->
+    <usuario-detalhe :user="user" />
   </div>
 </template>
 
@@ -21,8 +22,20 @@ export default {
         { id: 4, nome: "Ema", idade: 17 },
         { id: 5, nome: "Lia", idade: 28 },
       ],
+      user: null,
     };
   },
+  methods: {
+    userSelect({id, nome, idade}) {
+      console.log(id)
+      this.user = {
+        id,
+        nome,
+        idade
+      }
+      console.log('user: ', this.user)
+    }
+  }
 };
 </script>
 

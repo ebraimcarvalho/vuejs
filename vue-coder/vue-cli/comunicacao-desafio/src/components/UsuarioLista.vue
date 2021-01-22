@@ -7,11 +7,21 @@
           <th>Nome</th>
         </tr>
       </thead>
-      <tbody>
+      <!-- <tbody>
         <tr
           v-for="usuario in usuarios"
           :key="usuario.id"
           @click="setUser(usuario)"
+        >
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nome }}</td>
+        </tr>
+      </tbody> -->
+      <tbody>
+        <tr
+          v-for="usuario in usuarios"
+          :key="usuario.id"
+          @click="onChange(usuario)"
         >
           <td>{{ usuario.id }}</td>
           <td>{{ usuario.nome }}</td>
@@ -25,7 +35,7 @@
 import barramento from "@/barramento";
 
 export default {
-  props: { usuarios: Array },
+  props: { usuarios: Array, onChange: Function },
   methods: {
     setUser(user) {
       barramento.setUser(user);
