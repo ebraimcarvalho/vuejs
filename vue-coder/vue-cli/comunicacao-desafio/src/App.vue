@@ -33,7 +33,6 @@ export default {
         nome,
         idade
       }
-      console.log('user: ', this.user)
     }
   }
 };
