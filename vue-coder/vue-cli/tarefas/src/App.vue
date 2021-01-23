@@ -1,23 +1,11 @@
 <template>
 	<div id="app">
 		<h1>Tarefas</h1>
-		<div class="progress-bar">
-			<div :style="[{width: progress + '%'}]" class="progress-content"></div>
-			<div class="progress">
-				<p>{{progress}}%</p>
-			</div>
-		</div>
-		<div class="inputArea">
-			<input 
-				ref="inputText" 
-				type="text" 
-				placeholder="Nova tarefa?" 
-				v-model="input"
-				@input="setErro"
-				@keyup.enter="add" 
-			/>
-			<button @click="add">+</button>
-		</div>
+
+		<Progressbar :progress="progress" />
+
+		<InputText />
+
 		<div class="erro">
 			<p>{{erro}}</p>
 		</div>
@@ -42,15 +30,41 @@
 </template>
 
 <script>
+import barramento from '@/barramento'
+
+import Progressbar from './components/Progressbar.vue'
+import InputText from './components/InputText.vue'
+
 export default {
-	components: {},
+	components: {Progressbar, InputText},
 	created() {
-		console.log('get local storage')
+		const json = localStorage.getItem('tasks')
+		this.lista = JSON.parse(json) || []
+
+		barramento.getNewTask((item) => {
+			// console.log('addtask', item)
+			// let sameText = this.lista.filter(item => item.text == item)
+			// console.log('sametext', this.lista)
+			// if(sameText.length) {
+			// 	this.erro = 'Esta tarefa já contém na lista!'
+			// 	// this.$refs.inputText.focus()
+			// 	return
+			// }
+
+			this.lista.unshift({
+				text: item,
+				done: false
+			})
+			this.erro = ''
+		})
+
+		barramento.getErro(erro => {
+			this.erro = erro
+		})
 	},
 	data() {
 		return {
 			lista: [],
-			input: '',
 			erro: '',
 		}
 	},
@@ -61,37 +75,22 @@ export default {
 			return Math.round(percent) || 0
 		}
 	},
+	watch: {
+		lista: {
+			deep: true,
+			handler() {
+				localStorage.setItem('tasks', JSON.stringify(this.lista))
+			}
+		}
+	},
 	methods: {
-		add() {
-			if(!this.input) {
-				this.erro = 'Digite uma tarefa para adicionar!'
-				this.$refs.inputText.focus()
-				return
-			}
-			let sameText = this.lista.filter(item => item.text == this.input)
-			if(sameText.length) {
-				this.erro = 'Esta tarefa já contém na lsita!'
-				this.$refs.inputText.focus()
-				return
-			}
-			this.lista.unshift({
-				text: this.input,
-				done: false
-			})
-			this.erro = '';
-			this.input = '';
-			this.$refs.inputText.focus()
-		},
 		done(index) {
 			this.lista[index].done = !this.lista[index].done
 		},
 		del(index) {
 			this.lista.splice(index, 1)
 		},
-		setErro() {
-			this.erro = ''
-		}
-	}
+	},
 }
 </script>
 
@@ -115,29 +114,6 @@ export default {
 		margin-bottom: 5px;
 		font-weight: 300;
 		font-size: 3rem;
-	}
-
-	.progress-bar {
-		border: 1px solid #c1c1c1;
-		border-radius: 10px;
-		height: 40px;
-		margin-bottom: 30px;
-		position: relative;
-		width: 90%;
-	}
-
-	.progress-content {
-		height: 40px;
-		background-color: rgba(71, 156, 45, 0.842);
-	}
-
-	.progress {
-		display: flex;
-		font-size: 20px;
-		justify-content: center;
-		position: absolute;
-		top: -12px;
-		width: 100%;
 	}
 
 	.inputArea{
