@@ -43,6 +43,7 @@
 
 <script>
 export default {
+	components: {},
 	created() {
 		console.log('get local storage')
 	},
@@ -64,6 +65,12 @@ export default {
 		add() {
 			if(!this.input) {
 				this.erro = 'Digite uma tarefa para adicionar!'
+				this.$refs.inputText.focus()
+				return
+			}
+			let sameText = this.lista.filter(item => item.text == this.input)
+			if(sameText.length) {
+				this.erro = 'Esta tarefa já contém na lsita!'
 				this.$refs.inputText.focus()
 				return
 			}
