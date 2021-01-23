@@ -17,11 +17,20 @@
 			/>
 			<button @click="add">+</button>
 		</div>
+		<div class="erro">
+			<p>{{erro}}</p>
+		</div>
 		<div class="container-card" v-if="lista.length">
-			<div class="card" v-for="(item, index) in lista" :key="index">
+			<div 
+				class="card" 
+				:class="[{done: item.done}]"
+				:style="[{backgroundColor: item.done ? '#67AA5C' : '#E25342'}]"
+				v-for="(item, index) in lista" 
+				:key="index"
+			>
 				<div v-if="item">
-					<p @click="del(index)">fechar</p>
-					<p @click="done(index)" :class="[{done: item.done}]">{{item.text}} - {{index}} / {{item.done ? 'Feito' : 'Pendencia'}}</p>
+					<p class="close"><span @click="del(index)">X</span></p>
+					<p class="card-text" @click="done(index)">{{item.text}}</p>
 				</div>
 			</div>
 		</div>
@@ -35,26 +44,29 @@
 export default {
 	data() {
 		return {
-			lista: [{
-				text: 'Fazer compras',
-				done: false
-			}],
+			lista: [],
 			input: '',
+			erro: '',
 		}
 	},
 	computed: {
 		progress() {
 			let feitos = this.lista.filter(item => item.done)
 			let percent = feitos.length / this.lista.length * 100
-			return Math.round(percent)
+			return Math.round(percent) || 0
 		}
 	},
 	methods: {
 		add() {
+			if(!this.input) {
+				this.erro = 'Digite uma tarefa para adicionar!'
+				return
+			}
 			this.lista.unshift({
 				text: this.input,
 				done: false
 			})
+			this.erro = '';
 			this.input = '';
 			this.$refs.inputText.focus()
 		},
@@ -115,51 +127,78 @@ export default {
 
 	.inputArea{
 		display: flex;
+		position: relative;
 	}
 
 	.inputArea input {
-		background-color: transparent;
+		background-color: rgba(255, 255, 255, 0.1);
 		border: 1px solid #c1c1c1;
 		border-radius: 10px;
 		color: white;
 		font-size: 22px;
+		height: 35px;
 		padding: 5px 10px;
 		outline: none;
-		width: 300px;
+		width: 400px;
 	}
 
 	.inputArea button {
-		align-content: center;
 		background-color: rgb(58, 94, 211);
 		border: none;
 		border-radius: 0px 10px 10px 0px;
 		color: white;
 		cursor: pointer;
-		display: flex;
 		font-size: 22px;
-		height: 90%;
-		justify-content: center;
-		left: -34px;
+		height: 45px;
+		margin-top: 2px;
 		padding: 5px 10px;
-		position: relative;
+		position: absolute;
 		outline: none;
-		top: 2px;
+		right: 2px;
+		top: -1px;
 	}
 
-	.done {
-		text-decoration: line-through;
+	.erro{
+		color: rgb(231, 41, 41);
+		font-size: 20px;
 	}
 
 	.container-card {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		gap: 30px;
+		justify-content: center;
 		width: 90vw;
 	}
 
 	.card {
-		background-color: red;
-		width: 200px;
+		border-radius: 10px;
+		height: 140px;
+		width: 300px;
+	}
+
+	.card-text {
+		font-size: 22px;
+		text-align: center;
+	}
+
+	.close {
+		padding-right: 20px;
+		text-align: right;
+	}
+
+	.close span {
+		background-color: rgba(0, 0, 0, 0.288);
+		border-radius: 50%;
+		height: 60px;
+		padding: 5px 10px;
+		width: 60px;
+		cursor: pointer;
+	}
+
+	.done .card-text {
+		text-decoration: line-through;
 	}
 
 </style>
