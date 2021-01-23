@@ -12,7 +12,8 @@
 				ref="inputText" 
 				type="text" 
 				placeholder="Nova tarefa?" 
-				v-model="input" 
+				v-model="input"
+				@input="setErro"
 				@keyup.enter="add" 
 			/>
 			<button @click="add">+</button>
@@ -28,9 +29,9 @@
 				v-for="(item, index) in lista" 
 				:key="index"
 			>
-				<div v-if="item">
+				<div class="card-flex" v-if="item">
 					<p class="close"><span @click="del(index)">X</span></p>
-					<p class="card-text" @click="done(index)">{{item.text}}</p>
+					<p @click="done(index)" class="card-text">{{item.text}}</p>
 				</div>
 			</div>
 		</div>
@@ -42,6 +43,9 @@
 
 <script>
 export default {
+	created() {
+		console.log('get local storage')
+	},
 	data() {
 		return {
 			lista: [],
@@ -60,6 +64,7 @@ export default {
 		add() {
 			if(!this.input) {
 				this.erro = 'Digite uma tarefa para adicionar!'
+				this.$refs.inputText.focus()
 				return
 			}
 			this.lista.unshift({
@@ -75,6 +80,9 @@ export default {
 		},
 		del(index) {
 			this.lista.splice(index, 1)
+		},
+		setErro() {
+			this.erro = ''
 		}
 	}
 }
@@ -168,12 +176,14 @@ export default {
 		flex-direction: row;
 		flex-wrap: wrap;
 		gap: 30px;
+		margin-top: 20px;
 		justify-content: center;
 		width: 90vw;
 	}
 
 	.card {
 		border-radius: 10px;
+		cursor: pointer;
 		height: 140px;
 		width: 300px;
 	}
