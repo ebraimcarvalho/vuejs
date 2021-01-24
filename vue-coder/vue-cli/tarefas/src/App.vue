@@ -2,7 +2,8 @@
   <div id="app">
     <h1>Lista de Tarefas</h1>
     <Rotulo nome="Nome" v-model="nome" />
-    <p v-destaque:fundo.atrasar="'lightblue'">Nome é: {{nome}}</p>
+    <p v-destaque:fundo.atrasar="'lightblue'">Nome é: {{ nome }}</p>
+    <p v-destaque-local:fundo.atrasar="'lightblue'">Nome é: {{ nome }}</p>
     <Progressbar :progress="progress" />
     <InputText />
     <div v-if="erro" class="erro">
@@ -25,6 +26,22 @@ import Rotulo from "./components/Rotulo.vue";
 
 export default {
   components: { Progressbar, InputText, Tasks, Rotulo },
+  directives: {
+    "destaque-local": {
+      bind(el, binding, vnode) {
+        let atraso = 0;
+        if (binding.modifiers["atrasar"]) atraso = 3000;
+
+        setTimeout(() => {
+          if (binding.arg === "fundo") {
+            el.style.backgroundColor = binding.value;
+          } else {
+            el.style.color = binding.value;
+          }
+        }, atraso);
+      },
+    },
+  },
   created() {
     const json = localStorage.getItem("tasks");
     this.lista = JSON.parse(json) || [];
@@ -54,7 +71,7 @@ export default {
     return {
       lista: [],
       erro: "",
-      nome: ''
+      nome: "",
     };
   },
   computed: {

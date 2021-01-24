@@ -1,7 +1,7 @@
 <template>
-  <div class="card-flex" v-if="item">
-    <p class="close"><span @click="del(index)">X</span></p>
-    <p @click="done(index)" class="card-text">{{item.text}}</p>
+  <div @click="done(index)" class="card-flex" v-if="item">
+    <p class="close"><span @click.prevent="del(index)">X</span></p>
+    <p class="card-text">{{item.text}}</p>
   </div>
 </template>
 
