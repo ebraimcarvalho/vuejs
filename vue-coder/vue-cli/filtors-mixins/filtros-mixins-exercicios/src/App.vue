@@ -2,12 +2,19 @@
 	<div id="app">
 		<h1>Filtros & Mixins</h1>
 		<hr>
-		<p>{{ cpf | cpf }}</p>
+		<p>{{ cpf | cpf | inverter }}</p>
+		<hr>
+		<p>{{ nome | inverter }}</p>
+		<input type="text" v-model="nome">
+		<hr>
+		<Frutas />
 	</div>
 </template>
 
 <script>
+import Frutas from './Frutas.vue'
 export default {
+	components: { Frutas },
 	filters: {
 		cpf(valor) {
 			// const arr = valor.split('')
@@ -20,7 +27,13 @@ export default {
 	},
 	data() {
 		return {
-			cpf: '98700933460'
+			cpf: '98700933460',
+			nome: 'Ebraim'
+		}
+	},
+	methods: {
+		troca(n) {
+			this.nome = n
 		}
 	}
 }
