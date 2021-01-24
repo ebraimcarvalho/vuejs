@@ -4,11 +4,13 @@
 		<!-- Exercício 1 -->
 		<!-- Construir um filtro local que troca espaços por vírgula -->
 		<p>{{ 'essa é uma frase' | troca}}</p>
+		<p>{{ troca2 }}</p>
 		<!-- Exercício 2 -->
 		<!-- Filtro global que conta o tamanho de cada palavra e adiciona o 
 			valor na string final -->
 		<!-- "Pedro é legal" => "Pedro (5) é (1) legal (5)" -->
 		<p>{{ 'Pedro é legal' | tamanho }}</p>
+		<p>{{ tamanho2 }}</p>
 
 		<!-- Exercício 3 -->
 		<!-- Implementar os exercicios 1 e 2 com propriedade computada -->
@@ -19,12 +21,27 @@
 </template>
 
 <script>
+import fraseMixin from './fraseMixin'
 export default {
+	mixins: [fraseMixin],
+	data() {
+		return {
+			frase: 'Pedro é legal'
+		}
+	},
 	filters: {
 		troca(valor) {
 			return valor.replace(/[\s]/g, ',')
 		}
-	}
+	},
+	// computed: {
+	// 	troca2() {
+	// 		return this.frase.replace(/\s/g, ',')
+	// 	},
+	// 	tamanho2() {
+	// 		return this.frase.split(' ').map(p => `${p} (${p.length})`).join(' ')
+	// 	}
+	// }
 	
 }
 </script>
