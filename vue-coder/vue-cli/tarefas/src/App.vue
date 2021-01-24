@@ -3,7 +3,7 @@
     <h1>Lista de Tarefas</h1>
     <Rotulo nome="Nome" v-model="nome" />
     <p v-destaque:fundo.atrasar="'lightblue'">Nome é: {{ nome }}</p>
-    <p v-destaque-local:fundo.atrasar="'lightblue'">Nome é: {{ nome }}</p>
+    <p v-destaque-local:fundo.atrasar.alternar="'lightblue'">Nome é: {{ nome }}</p>
     <Progressbar :progress="progress" />
     <InputText />
     <div v-if="erro" class="erro">
@@ -32,11 +32,26 @@ export default {
         let atraso = 0;
         if (binding.modifiers["atrasar"]) atraso = 3000;
 
+        const cor1 = binding.value
+        const cor2 = 'purple'
+        let corAtual = cor1
+
         setTimeout(() => {
-          if (binding.arg === "fundo") {
-            el.style.backgroundColor = binding.value;
+          if(binding.modifiers["alternar"]) {
+            setInterval(() => {
+              corAtual = corAtual === cor1 ? cor2 : cor1;
+              if(binding.arg === "fundo") {
+              el.style.backgroundColor = corAtual;
+            } else {
+              el.style.color = corAtual;
+            }
+            }, 1000)
           } else {
-            el.style.color = binding.value;
+            if(binding.arg === "fundo") {
+              el.style.backgroundColor = binding.value;
+            } else {
+              el.style.color = binding.value;
+            }
           }
         }, atraso);
       },
