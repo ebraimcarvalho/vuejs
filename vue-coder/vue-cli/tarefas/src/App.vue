@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <h1>Lista de Tarefas</h1>
+    <button v-quando:click="acao">Executar</button>
+    <p v-quando:mouseenter="acao">Mouse enter</p>
     <Rotulo nome="Nome" v-model="nome" />
     <p v-destaque:fundo.atrasar="'lightblue'">Nome é: {{ nome }}</p>
     <p v-destaque-local:fundo.atrasar.alternar="'lightblue'">Nome é: {{ nome }}</p>
@@ -27,6 +29,12 @@ import Rotulo from "./components/Rotulo.vue";
 export default {
   components: { Progressbar, InputText, Tasks, Rotulo },
   directives: {
+    "quando": {
+      bind(el, binding) {
+        let ev = binding.arg
+        el.addEventListener(ev, binding.value)
+      }
+    },
     "destaque-local": {
       bind(el, binding, vnode) {
         let atraso = 0;
@@ -111,6 +119,9 @@ export default {
     del(index) {
       this.lista.splice(index, 1);
     },
+    acao() {
+      alert('Ação disparada')
+    }
   },
 };
 </script>
