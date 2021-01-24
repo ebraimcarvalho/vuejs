@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Tarefas</h1>
+    <h1>Lista de Tarefas</h1>
     <Progressbar :progress="progress" />
     <InputText />
     <div v-if="erro" class="erro">
