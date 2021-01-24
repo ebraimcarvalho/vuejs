@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Lista de Tarefas</h1>
     <Rotulo nome="Nome" v-model="nome" />
-    <p v-destaque:fundo.atrasar="'blue'">Nome é: {{nome}}</p>
+    <p v-destaque:fundo.atrasar="'lightblue'">Nome é: {{nome}}</p>
     <Progressbar :progress="progress" />
     <InputText />
     <div v-if="erro" class="erro">
