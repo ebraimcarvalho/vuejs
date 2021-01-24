@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <h1>Lista de Tarefas</h1>
+    <Rotulo nome="Nome" v-model="nome" />
+    <p v-destaque="'blue'">Nome é: {{nome}}</p>
     <Progressbar :progress="progress" />
     <InputText />
     <div v-if="erro" class="erro">
@@ -19,9 +21,10 @@ import barramento from "@/barramento";
 import Progressbar from "./components/Progressbar.vue";
 import InputText from "./components/InputText.vue";
 import Tasks from "./components/Tasks.vue";
+import Rotulo from "./components/Rotulo.vue";
 
 export default {
-  components: { Progressbar, InputText, Tasks },
+  components: { Progressbar, InputText, Tasks, Rotulo },
   created() {
     const json = localStorage.getItem("tasks");
     this.lista = JSON.parse(json) || [];
@@ -51,6 +54,7 @@ export default {
     return {
       lista: [],
       erro: "",
+      nome: ''
     };
   },
   computed: {
