@@ -3,6 +3,7 @@
     <h1>Lista de Tarefas</h1>
     <button v-quando:click="acao">Executar</button>
     <p v-quando:mouseenter="acao">Mouse enter</p>
+    <p v-quando:mouseenter="acao">mouse</p>
     <Rotulo nome="Nome" v-model="nome" />
     <p v-destaque:fundo.atrasar="'lightblue'">Nome é: {{ nome }}</p>
     <p v-destaque-local:fundo.atrasar.alternar="'lightblue'">Nome é: {{ nome }}</p>
