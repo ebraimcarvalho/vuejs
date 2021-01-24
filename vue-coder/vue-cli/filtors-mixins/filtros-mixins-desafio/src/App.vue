@@ -12,6 +12,9 @@
 		<p>{{ 'Pedro é legal' | tamanho }}</p>
 		<p>{{ tamanho2 }}</p>
 
+		<input type="text" v-model="name">
+		<p :id="name | capitalize" >{{ name }}</p>
+
 		<!-- Exercício 3 -->
 		<!-- Implementar os exercicios 1 e 2 com propriedade computada -->
 
@@ -26,12 +29,16 @@ export default {
 	mixins: [fraseMixin],
 	data() {
 		return {
-			frase: 'Pedro é legal'
+			frase: 'Pedro é legal',
+			name: ''
 		}
 	},
 	filters: {
 		troca(valor) {
 			return valor.replace(/[\s]/g, ',')
+		},
+		capitalize(valor) {
+			return valor.charAt(0).toUpperCase() + valor.slice(1)
 		}
 	},
 	// computed: {
