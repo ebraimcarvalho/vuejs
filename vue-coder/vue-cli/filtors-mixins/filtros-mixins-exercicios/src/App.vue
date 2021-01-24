@@ -8,12 +8,21 @@
 		<input type="text" v-model="nome">
 		<hr>
 		<Frutas />
+		<hr>
+		<div>
+    <ul>
+      <li v-for="fruta in frutas" :key="fruta">{{fruta}}</li>
+    </ul>
+    <input type="text" v-model="fruta" @keyup.enter="add">
+  </div>
 	</div>
 </template>
 
 <script>
 import Frutas from './Frutas.vue'
+import frutasMixin from './frutasMixin'
 export default {
+  mixins: [frutasMixin],
 	components: { Frutas },
 	filters: {
 		cpf(valor) {
@@ -28,7 +37,8 @@ export default {
 	data() {
 		return {
 			cpf: '98700933460',
-			nome: 'Ebraim'
+			nome: 'Ebraim',
+			frutas: ['só uma']
 		}
 	},
 	methods: {
