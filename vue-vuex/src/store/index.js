@@ -38,6 +38,12 @@ const store = new Vuex.Store({
     },
     toggleBook(state, index) {
       state.books[index].completed = !state.books[index].completed
+    },
+    addBook(state, book) {
+      state.books = [...state.books, book]
+    },
+    removeBook(state, index) {
+      state.books.splice(index, 1)
     }
   },
   actions: {
