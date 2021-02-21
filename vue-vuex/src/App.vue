@@ -9,8 +9,8 @@
     <hr>
     <h3>Count: {{count}}</h3>
     <div>
-      <button @click="decrementCount({amount: 1})">decrement</button>
-      <button @click="incrementCount(1)">increment</button>
+      <button @click="countLess({amount: 1})">decrement</button>
+      <button @click="countMore(1)">increment</button>
     </div>
     <p>{{something}}</p>
 
@@ -30,15 +30,15 @@
 
     <div>
       <h3>Livros lidos: {{doneBooksCount}}</h3>
-      <ul>
-        <li v-for="(book, index) in doneBooks" :key="`${index}-${book.name}`">{{book.name}}</li>
-      </ul>
+      <div class="grid">
+        <div class="card completed" v-for="(book, index) in doneBooks" :key="`${index}-${book.name}`">{{book.name}}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -66,9 +66,10 @@ export default {
       'decrementSalary',
       'toggleBook',
     ]),
-    add() {
-      this.incrementCount()
-    }
+    ...mapActions([
+      'countMore',
+      'countLess'
+    ])
   }
 }
 </script>

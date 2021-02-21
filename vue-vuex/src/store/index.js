@@ -23,21 +23,29 @@ const store = new Vuex.Store({
     },
     decrementCount(state, payload) {
       if(state.count > 0) {
-        return state.count -= payload.amount
+        state.count -= payload.amount
       }
       return state.count
     },
     incrementSalary(state, payload) {
-      return state.employee.salary += payload.amount
+      state.employee.salary += payload.amount
     },
     decrementSalary(state, payload) {
       if(state.employee.salary > 0) {
-        return state.employee.salary -= payload.amount
+        state.employee.salary -= payload.amount
       }
-      return state.employee.salary
+      state.employee.salary
     },
     toggleBook(state, index) {
-      return state.books[index].completed = !state.books[index].completed
+      state.books[index].completed = !state.books[index].completed
+    }
+  },
+  actions: {
+    countMore({commit}, amount) {
+      commit('incrementCount', amount)
+    },
+    countLess({commit}, payload) {
+      commit('decrementCount', payload)
     }
   },
   getters: {
