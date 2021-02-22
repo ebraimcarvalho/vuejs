@@ -3,22 +3,33 @@
     <v-app>
       <v-app-bar app></v-app-bar>
       <v-main>
-        <v-container>
-          <h1>Employee: {{employee.name}}</h1>
+        <v-container class="text-center">
+          <h1 class="display-1">Employee: {{employee.name}}</h1>
           <h2>Salary: {{parseFloat(employee.salary).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' })}}</h2>
-          <div>
-            <button class="btn" @click="decrementSalary({amount: 1000})">decrement</button>
-            <button @click="incrementSalary({amount: 1000})">increment</button>
+          <div class="mt-3">
+            <v-btn
+              @click="decrementSalary({amount: 1000})"
+              class="error lighten-1 mr-4"
+              depressed
+              elevation="3"
+            >decrement</v-btn>
+            <v-btn
+              @click="incrementSalary({amount: 1000})"
+              color="primary"
+              depressed
+              elevation="3"
+            >increment</v-btn>
+            
           </div>
-          <h3>Count: {{count}}</h3>
-          <div>
-            <button @click="countLess({amount: 1})">decrement</button>
-            <button @click="countMore(1)">increment</button>
-          </div>
-          <p>{{something}}</p>
-        </v-container>
 
-        <v-spacer></v-spacer>
+          <v-divider class="mt-4"></v-divider>
+
+          <h3 class="mt-4">Count: {{count}}</h3>
+          <div>
+            <v-btn class="mr-4 error lighten-1" @click="countLess({amount: 1})">decrement</v-btn>
+            <v-btn class="primary" @click="countMore(1)">increment</v-btn>
+          </div>
+        </v-container>
 
         <v-container style="max-width: 500px">
           <v-text-field
